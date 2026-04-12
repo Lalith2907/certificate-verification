@@ -1,14 +1,10 @@
-const hre = require("hardhat");
-
 async function main() {
-  const Contract = await hre.ethers.getContractFactory(
-    "CertificateVerification",
-  );
-  const contract = await Contract.deploy();
+  const Certificate = await ethers.getContractFactory("Certificate");
+  const contract = await Certificate.deploy();
 
   await contract.waitForDeployment();
 
-  console.log("Contract deployed to:", contract.target);
+  console.log("Deployed to:", await contract.getAddress());
 }
 
 main().catch((error) => {
