@@ -23,6 +23,10 @@ export default function Issue() {
       setForm({ ...form, certId: finalCertId });
     }
 
+    if (!finalCertId || !form.studentName || !form.course || !form.issuer) {
+      return setStatus("Error: All fields are required.");
+    }
+
     try {
       setStatus(`Submitting Hash: ${finalCertId}`);
       const contract = await getContract();
