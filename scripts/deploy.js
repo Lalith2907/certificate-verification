@@ -5,6 +5,9 @@ async function main() {
   await contract.waitForDeployment();
 
   console.log("Deployed to:", await contract.getAddress());
+  
+  // Add this line to prevent the Windows Node.js libuv assertion error when exiting
+  process.exit(0);
 }
 
 main().catch((error) => {

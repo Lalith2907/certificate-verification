@@ -20,9 +20,8 @@ describe("Certificate Contract", function () {
     const studentName = "John Doe";
     const course = "B.Tech Blockhain";
     const issuer = "PES University";
-    const ipfsHash = "ipfs://test";
 
-    await expect(certificate.issueCertificate(certId, studentName, course, issuer, ipfsHash))
+    await expect(certificate.issueCertificate(certId, studentName, course, issuer))
       .to.emit(certificate, "CertificateIssued")
       .withArgs(certId, studentName, issuer, await ethers.provider.getBlock("latest").then(b => b.timestamp + 1));
 
@@ -34,7 +33,7 @@ describe("Certificate Contract", function () {
 
   it("Should revoke a certificate", async function () {
     const certId = "hash-revoked";
-    await certificate.issueCertificate(certId, "Jane Doe", "B.Tech", "PES", "ipfs://test");
+    await certificate.issueCertificate(certId, "Jane Doe", "B.Tech", "PES");
 
     await expect(certificate.revokeCertificate(certId))
       .to.emit(certificate, "CertificateRevoked")
@@ -46,7 +45,7 @@ describe("Certificate Contract", function () {
 
   it("Non-admin should not issue certificates", async function () {
     await expect(
-      certificate.connect(addr1).issueCertificate("hash-456", "Alice", "B.Tech", "PES", "ipfs://test2")
+      certificate.connect(addr1).issueCertificate("hash-456", "Alice", "B.Tech", "PES")
     ).to.be.revertedWith("Not authorized");
   });
 });

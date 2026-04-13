@@ -22,7 +22,9 @@ export default function Revoke() {
       if (err.message && err.message.includes("Not authorized")) {
         setStatus("Error: Only the Admin (Deployer) can revoke certificates.");
       } else if (err.message && err.message.includes("Already revoked")) {
-         setStatus("Error: Certificate has already been revoked!");
+        setStatus("Error: Certificate has already been revoked!");
+      } else if (err.code === "ACTION_REJECTED" || (err.message && err.message.includes("user rejected action"))) {
+        setStatus("Error: Transaction cancelled by the user in MetaMask.");
       } else {
         setStatus(`Error: ${err.message || "Failed to revoke"}`);
       }

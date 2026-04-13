@@ -31,8 +31,7 @@ export default function Issue() {
         finalCertId,
         form.studentName,
         form.course,
-        form.issuer,
-        form.ipfsHash
+        form.issuer
       );
 
       setStatus("Waiting for confirmation...");
@@ -41,7 +40,13 @@ export default function Issue() {
       setIssuedCertId(finalCertId); // Save the true hash to trigger QR generation
       alert("Certificate Issued Successfully!");
     } catch (err) {
-      setStatus(`Error: ${err.message || "Tx Failed"}`);
+      if (err.message && err.message.includes("Already exists")) {
+        setStatus("Error: Certificate already exists on the blockchain.");
+      } else if (err.code === "ACTION_REJECTED" || (err.message && err.message.includes("user rejected action"))) {
+        setStatus("Error: Transaction cancelled by the user in MetaMask.");
+      } else {
+        setStatus(`Error: ${err.message || "Tx Failed"}`);
+      }
       setIssuedCertId("");
     }
   };
@@ -93,12 +98,6 @@ export default function Issue() {
         value={form.issuer}
         onChange={(e) => setForm({ ...form, issuer: e.target.value })}
       />
-      <input
-        type="text"
-        placeholder="IPFS Hash (Optional)"
-        value={form.ipfsHash}
-        onChange={(e) => setForm({ ...form, ipfsHash: e.target.value })}        
-      />
 
       <button onClick={handleSubmit} style={{ width: '100%', marginTop: '20px' }}>Issue Certificate</button>
 
@@ -113,7 +112,8 @@ export default function Issue() {
             includeMargin={true}
           />
           <p style={{ marginTop: '10px', fontSize: '14px', color: '#6c757d' }}>Scan to verify certificate authenticity.</p>
-          <button onClick={downloadQRCode} style={{ backgroundColor: '#28a745', marginTop: '10px' }}>
+          <button onClick={downloadQRCode} style={{ backgroundColor: '#28a745', marginTop: '10px', padding: '10px 20px', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>
+            Download QR Code
           </button>
         </div>
       )}

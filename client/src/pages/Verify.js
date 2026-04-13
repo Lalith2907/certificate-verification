@@ -74,7 +74,6 @@ export default function Verify() {
           <p><strong>Name:</strong> {data.studentName}</p>
           <p><strong>Course:</strong> {data.course}</p>
           <p><strong>Issuer:</strong> {data.issuer}</p>
-          <p><strong>IPFS:</strong> {data.ipfsHash ? data.ipfsHash : "N/A"}</p> 
           <p style={{ fontSize: '18px' }}>
             <strong>Authenticity:</strong> 
             {data.isValid ? 

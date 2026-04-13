@@ -14,7 +14,6 @@ contract Certificate {
         string studentName;
         string course;
         string issuer;
-        string ipfsHash;
         uint256 issuedAt;
         bool isValid;
     }
@@ -33,8 +32,7 @@ contract Certificate {
         string memory _certId,
         string memory _studentName,
         string memory _course,
-        string memory _issuer,
-        string memory _ipfsHash
+        string memory _issuer
     ) public onlyAdmin {
         require(!certificates[_certId].isValid, "Already exists");
 
@@ -43,7 +41,6 @@ contract Certificate {
             _studentName,
             _course,
             _issuer,
-            _ipfsHash,
             block.timestamp,
             true
         );

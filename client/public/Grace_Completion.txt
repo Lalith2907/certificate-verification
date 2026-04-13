@@ -1,0 +1,3 @@
+Grace has fully completed the React Native Masterclass.
+Skills acquired: Redux, Routing, Ethers.js integration, IPFS uploading.
+Status: GRADUATED
